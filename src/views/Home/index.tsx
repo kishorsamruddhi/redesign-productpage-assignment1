@@ -5,9 +5,8 @@ import ContactForm from './components/ContactForm';
 import MainFooter from './components/MainFooter';
 import InfoSection from './components/InfoSection';
 import FeaturesGrid from './components/FeaturesGrid';
-
-// Add SocialProofSection Component
 import SocialProofSection from './components/SocialProofSection';
+import VirtualAssistant from './components/VirtualAssistant'; // Import the Virtual Assistant component
 
 const Home: React.FC = () => {
     const contactRef = useRef<HTMLDivElement>(null);
@@ -59,21 +58,19 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
-           
             {/* About / Info Section */}
             <section ref={aboutRef} className="bg-white py-16 px-4 md:px-12">
                 <div className="max-w-6xl mx-auto">
                     <InfoSection />
                 </div>
             </section>
-			
-			 {/* Social Proof Section (Testimonials and Case Studies) */}
-			 <section className="bg-gray-100 py-16 px-4 md:px-12">
+            
+            {/* Social Proof Section */}
+            <section className="bg-gray-100 py-16 px-4 md:px-12">
                 <div className="max-w-7xl mx-auto">
                     <SocialProofSection />
                 </div>
             </section>
-
 
             {/* FAQs Section */}
             <section className="bg-gray-50 py-16 px-4 md:px-12">
@@ -93,6 +90,9 @@ const Home: React.FC = () => {
             <footer className="bg-gray-100 mt-auto">
                 <MainFooter />
             </footer>
+
+            {/* Virtual Assistant */}
+            <VirtualAssistant /> {/* Add the Virtual Assistant here */}
         </div>
     );
 };
