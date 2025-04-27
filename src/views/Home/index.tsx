@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HeroSection from './components/HeroSection';
 import HomeFAQs from './components/HomeFAQ';
 import ContactForm from './components/ContactForm';
@@ -7,6 +7,36 @@ import InfoSection from './components/InfoSection';
 import FeaturesGrid from './components/FeaturesGrid';
 import SocialProofSection from './components/SocialProofSection';
 import VirtualAssistant from './components/VirtualAssistant'; // Import the Virtual Assistant component
+
+// FadeInSection component for smooth fade-in animations on scroll
+const FadeInSection = ({ children }: { children: React.ReactNode }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect(); // Stop observing after it's visible
+                }
+            },
+            { threshold: 0.1 } // Trigger when 10% of the element is visible
+        );
+
+        const element = document.querySelector('.fadeIn');
+        if (element) observer.observe(element);
+
+        return () => {
+            if (element) observer.disconnect();
+        };
+    }, []);
+
+    return (
+        <div className={`fadeIn ${isVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-1000 ease-in-out`}>
+            {children}
+        </div>
+    );
+};
 
 const Home: React.FC = () => {
     const contactRef = useRef<HTMLDivElement>(null);
@@ -42,7 +72,7 @@ const Home: React.FC = () => {
     return (
         <div className="flex flex-col min-h-screen overflow-x-hidden">
             {/* Hero Section */}
-            <section className="bg-gradient-to-b from-blue-50 to-white">
+            <section className="bg-gradient-to-b from-blue-50 to-white opacity-100 transition-all duration-1000 ease-in-out">
                 <HeroSection
                     scrollToSection={scrollToSection}
                     featuresRef={FqRef}
@@ -52,39 +82,49 @@ const Home: React.FC = () => {
             </section>
 
             {/* Features Section */}
-            <section ref={FqRef} className="bg-[#eff6ff] py-16 px-4 md:px-12">
-                <div className="max-w-7xl mx-auto">
-                    <FeaturesGrid />
-                </div>
-            </section>
+            <FadeInSection>
+                <section ref={FqRef} className="bg-[#eff6ff] py-16 px-4 md:px-12">
+                    <div className="max-w-7xl mx-auto">
+                        <FeaturesGrid />
+                    </div>
+                </section>
+            </FadeInSection>
 
             {/* About / Info Section */}
-            <section ref={aboutRef} className="bg-white py-16 px-4 md:px-12">
-                <div className="max-w-6xl mx-auto">
-                    <InfoSection />
-                </div>
-            </section>
-            
+            <FadeInSection>
+                <section ref={aboutRef} className="bg-white py-16 px-4 md:px-12">
+                    <div className="max-w-6xl mx-auto">
+                        <InfoSection />
+                    </div>
+                </section>
+            </FadeInSection>
+
             {/* Social Proof Section */}
-            <section className="bg-gray-100 py-16 px-4 md:px-12">
-                <div className="max-w-7xl mx-auto">
-                    <SocialProofSection />
-                </div>
-            </section>
+            <FadeInSection>
+                <section className="bg-gray-100 py-16 px-4 md:px-12">
+                    <div className="max-w-7xl mx-auto">
+                        <SocialProofSection />
+                    </div>
+                </section>
+            </FadeInSection>
 
             {/* FAQs Section */}
-            <section className="bg-gray-50 py-16 px-4 md:px-12">
-                <div className="max-w-6xl mx-auto">
-                    <HomeFAQs />
-                </div>
-            </section>
+            <FadeInSection>
+                <section className="bg-gray-50 py-16 px-4 md:px-12">
+                    <div className="max-w-6xl mx-auto">
+                        <HomeFAQs />
+                    </div>
+                </section>
+            </FadeInSection>
 
             {/* Contact Section */}
-            <section ref={contactRef} className="bg-white py-16 px-4 md:px-12">
-                <div className="max-w-5xl mx-auto">
-                    <ContactForm />
-                </div>
-            </section>
+            <FadeInSection>
+                <section ref={contactRef} className="bg-white py-16 px-4 md:px-12">
+                    <div className="max-w-5xl mx-auto">
+                        <ContactForm />
+                    </div>
+                </section>
+            </FadeInSection>
 
             {/* Footer */}
             <footer className="bg-gray-100 mt-auto">
